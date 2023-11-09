@@ -9,7 +9,7 @@ const ExitColor = "brown",
 class Letter extends React.Component {
     defaultState = {
         y: -60,
-        x: this.props.index * 32,
+        x: this.props.index * 13,
         color: EnterColor,
         fillOpacity: 1e-6
     };
@@ -49,12 +49,12 @@ class Letter extends React.Component {
         if (prevProps.in !== this.props.in && this.props.in) {
             // A new enter transition has begun
             this.setState({
-                x: this.props.index * 32
+                x: this.props.index * 13
             });
         } else if (prevProps.index !== this.props.index) {
             // Letter is moving to a new location
             let node = d3.select(this.letterRef.current),
-                targetX = this.props.index * 32;
+                targetX = this.props.index * 13;
 
             node.style("fill", UpdateColor)
                 .transition()
@@ -89,7 +89,7 @@ class Letter extends React.Component {
                     style={{
                         fillOpacity: fillOpacity,
                         fill: color,
-                        font: "bold 48px monospace"
+                        font: "bold 24px monospace"
                     }}
                     ref={this.letterRef}
                 >

@@ -11,21 +11,14 @@ class FancyText extends Component {
 
     componentDidMount() {
         // Initialize textWithIds when the component mounts
-        this.setupTextWithIds(this.props.text);
+        this.setupTextWithIds(this.props.text || "");
     }
 
     setupTextWithIds = (text) => {
-        const newText = text.split("");
-        let textWithIds = [];
-        let lastId = this.state.lastId;
+        const newText = text ? text.split("") : [];
+        const textWithIds = newText.map((char, index) => [char, index]); // Use index as a key
 
-        // Assign an ID to each letter in the new text if it's not already present
-        for (let i = 0; i < newText.length; i++) {
-            textWithIds.push([newText[i], lastId++]);
-        }
-
-        // Update the state with the new text and lastId
-        this.setState({ textWithIds, lastId });
+        this.setState({ textWithIds, lastId: newText.length });
     };
 
     componentDidUpdate(prevProps) {
@@ -101,11 +94,15 @@ class FancyText extends Component {
 
     render() {
         let { x, y } = this.props;
+        console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhh")
+        console.log(this.state.textWithIds)
+        // let textWithIds = Array.isArray(this.state.textWithIds) ? this.state.textWithIds : [];
+        let textWithIds = this.state.textWithIds.filter(entry => entry !== undefined);
 
         return (
             <g transform={`translate(${x}, ${y})`}>
                 <TransitionGroup component="g" enter={true} exit={true}>
-                    {this.state.textWithIds.map(([l, id], i) => (
+                    {textWithIds.map(([l, id], i) => (
                         <Letter letter={l} index={i} key={id} />
                     ))}
                 </TransitionGroup>
