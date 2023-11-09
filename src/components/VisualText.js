@@ -97,10 +97,10 @@ const scienceQuestions = [
     ],
     [
         "Which set of descriptions correctly states the difference between a population and a community? (A) Population: one species in an area Community: one species worldwide (B) Population: organisms in a small area Community: organisms in a large area (C) Population: living parts of an area Community: living and nonliving parts of an area (D) Population: one type of organism in an area Community: many types of organisms in an area",
-        "Difference between population and community? A) Population: one species in an area Community: one species worldwide B) Population: organisms in a small area Community: organisms in a large area C) Population: living parts of an area Community: living and nonliving parts of an area D) Population: one type of organism in an area Community: many types of organisms in an area.",
+        "Difference between population and community? (A) Population: one species in an area Community: one species worldwide (B) Population: organisms in a small area Community: organisms in a large area (C) Population: living parts of an area Community: living and nonliving parts of an area (D) Population: one type of organism in an area Community: many types of organisms in an area.",
         "What is the correct distinction between a population and a community? (A) Population refers to one species in an area, while community refers to one species worldwide. (B) Population refers to organisms in a small area, while community refers to organisms in a large area. (C) Population refers to living parts of an area, while community refers to living and nonliving parts of an area. (D) Population refers to one type of organism in an area, while community refers to many types of organisms in an area.",
         "What is the difference between a population and a community? (A) Population: one species in an area Community: one species worldwide (B) Population: organisms in a small area Community: organisms in a large area (C) Population: living parts of an area Community: living and nonliving parts of an area (D) Population: one type of organism in an area Community: many types of organisms in an area.",
-        "Can you determine which description accurately explains the difference between a population and a community? Choose the option that best defines the concepts below:A) Population: a single species in a specific area; Community: a single species on a global scale. B) Population: organisms in a small area; Community: organisms in a large area. C) Population: living components of an area; Community: living and nonliving components of an area. D) Population: one type of organism in an area; Community: multiple types of organisms in an area.",
+        "Can you determine which description accurately explains the difference between a population and a community? Choose the option that best defines the concepts below:(A) Population: a single species in a specific area; Community: a single species on a global scale. (B) Population: organisms in a small area; Community: organisms in a large area. (C) Population: living components of an area; Community: living and nonliving components of an area. (D) Population: one type of organism in an area; Community: multiple types of organisms in an area.",
         "D",
     ],
     [
@@ -123,6 +123,13 @@ class VisualText extends Component {
         currentText: mathQuestions[0] ? mathQuestions[0][0] : "",
         lines: [],
         key: 'math-0',
+        showAnswer: false,
+    };
+
+    toggleAnswer = () => {
+        this.setState(prevState => ({
+            showAnswer: !prevState.showAnswer
+        }));
     };
 
     componentDidMount() {
@@ -134,7 +141,7 @@ class VisualText extends Component {
         const { textVersions, simplificationLevel } = this.state;
         this.setState({
             currentText: textVersions[simplificationLevel],
-            lines: this.splitTextIntoLines(textVersions[simplificationLevel], 75)
+            lines: this.splitTextIntoLines(textVersions[simplificationLevel], 85)
         });
     }
 
@@ -149,8 +156,9 @@ class VisualText extends Component {
             questionNumber: validIndex,
             textVersions: textVersions[validIndex] || ["", "", "", "", ""],
             currentText: textVersions[validIndex][0] || "",
-            lines: this.splitTextIntoLines(textVersions[validIndex][0] || "", 75),
-            key: `${dataset}-${validIndex}`, // This key helps to remount the component when dataset changes
+            lines: this.splitTextIntoLines(textVersions[validIndex][0] || "", 85),
+            key: `${dataset}-${validIndex}`, 
+            simplificationLevel: 0,
         });
     };
 
@@ -164,8 +172,9 @@ class VisualText extends Component {
             questionNumber: validIndex,
             textVersions: textVersions[validIndex] || ["", "", "", "", ""],
             currentText: textVersions[validIndex][0] || "",
-            lines: this.splitTextIntoLines(textVersions[validIndex][0] || "", 75),
-            key: `${dataset}-${validIndex}`, // Resetting the key to force re-render without animation for new question
+            lines: this.splitTextIntoLines(textVersions[validIndex][0] || "", 85),
+            key: `${dataset}-${validIndex}`, 
+            simplificationLevel: 0,
         });
     };
 
@@ -179,27 +188,37 @@ class VisualText extends Component {
         this.setState({
             simplificationLevel: level,
             currentText: newText,
-            lines: this.splitTextIntoLines(newText, 75)
+            lines: this.splitTextIntoLines(newText, 85)
         });
     };
 
     splitTextIntoLines(text, maxLineWidth) {
-        const words = text.split(/\s+/); // Split by space
+        const words = text.split(/\s+/);
         const lines = [];
         let currentLine = words.shift();
 
         words.forEach(word => {
-            const newLine = currentLine + ' ' + word;
-            if (newLine.length > maxLineWidth) {
-                lines.push(currentLine);
-                currentLine = word;
+            if (/\([ABCD]\)/.test(word)) {
+                
+                if (currentLine.length > 0) {
+                    lines.push(currentLine); 
+                }
+                currentLine = word; 
             } else {
-                currentLine = newLine;
+                const newLine = currentLine.length > 0 ? `${currentLine} ${word}` : word;
+                if (newLine.length > maxLineWidth) {
+                    lines.push(currentLine); 
+                    currentLine = word;
+                } else {
+                    currentLine = newLine; 
+                }
             }
         });
 
-        lines.push(currentLine); // Push the last line
-
+        if (currentLine.length > 0) {
+            lines.push(currentLine);
+        }
+    
         return lines;
     }
 
@@ -210,18 +229,18 @@ class VisualText extends Component {
     };
 
     render() {
-        const { lines, simplificationLevel, dataset, questionNumber, resetAnimationKey } = this.state;
+        const { lines, simplificationLevel, dataset, questionNumber, resetAnimationKey,showAnswer } = this.state;
+
+        const answer = this.state.textVersions[5];
 
         // Define the SVG viewBox dimensions
-        const viewBoxWidth = 1000; // This can be an arbitrary number
-        const viewBoxHeight = 500; // Adjust this based on your aspect ratio
+        const viewBoxWidth = 1000; 
+        const viewBoxHeight = 500;
 
         // Calculate the center position for the text
         const xCenter = 0;
-        const yStart = 100; // Start y position for the first line
-        const lineHeight = 40; // Height of each line including space between lines
-
-        // const lines = this.splitTextIntoLines(currentText, 75);
+        const yStart = 100; 
+        const lineHeight = 40; 
 
         return (
             <div className="container">
@@ -254,6 +273,14 @@ class VisualText extends Component {
                         />
                     ))}
                 </svg>
+                <div className="answer-control">
+                    <button onClick={this.toggleAnswer} className="answer-toggle">
+                        {showAnswer ? "Hide Answer" : "View Answer"}
+                    </button>
+                    {showAnswer && (
+                        <div className="answer-text">{answer}</div>
+                    )}
+                </div>
                 <div className="slider-container">
                     <input
                         type="range"

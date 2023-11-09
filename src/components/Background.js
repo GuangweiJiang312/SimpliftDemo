@@ -7,7 +7,7 @@ const Background = ({ nextPage }) => {
       <div className="content">
         <h1>Research Background</h1>
         <p>Here is the text describing the background and methodology of the research...</p>
-        <button className="next-button" onClick={nextPage}>Next</button>
+        <button className="next-button" onClick={nextPage}>Explore</button>
       </div>
     </div>
   );
