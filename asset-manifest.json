@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/SimpliftDemo/static/css/main.ade79ee6.css",
-    "main.js": "/SimpliftDemo/static/js/main.afb3a610.js",
+    "main.css": "/SimpliftDemo/static/css/main.a8d464e3.css",
+    "main.js": "/SimpliftDemo/static/js/main.3a618ce4.js",
     "static/js/787.8580c71b.chunk.js": "/SimpliftDemo/static/js/787.8580c71b.chunk.js",
     "index.html": "/SimpliftDemo/index.html",
-    "main.ade79ee6.css.map": "/SimpliftDemo/static/css/main.ade79ee6.css.map",
-    "main.afb3a610.js.map": "/SimpliftDemo/static/js/main.afb3a610.js.map",
+    "main.a8d464e3.css.map": "/SimpliftDemo/static/css/main.a8d464e3.css.map",
+    "main.3a618ce4.js.map": "/SimpliftDemo/static/js/main.3a618ce4.js.map",
     "787.8580c71b.chunk.js.map": "/SimpliftDemo/static/js/787.8580c71b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.ade79ee6.css",
-    "static/js/main.afb3a610.js"
+    "static/css/main.a8d464e3.css",
+    "static/js/main.3a618ce4.js"
   ]
 }
