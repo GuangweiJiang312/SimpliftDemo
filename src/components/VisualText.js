@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import FancyText from './FancyText';
 import './VisualText.css';
+import ReactECharts from 'echarts-for-react';
 
 const mathQuestions = [
     [
@@ -124,6 +125,51 @@ class VisualText extends Component {
         lines: [],
         key: 'math-0',
         showAnswer: false,
+        chartData: null,
+        highlightedBar: null,
+    };
+
+    highlightBar(level) {
+        this.setState({ highlightedBar: level }, () => {
+            this.updateChartDataWithHighlight(level);
+        });
+    };
+
+    updateChartDataWithHighlight(level) {
+        const dataset = this.state.dataset;
+        const chartData = this.getChartData(dataset);
+
+        // Apply emphasis style to the highlighted bar
+        chartData.series[0].data = chartData.series[0].data.map((value, index) => ({
+            value,
+            itemStyle: index === level ? {
+                normal: { color: '#0F52BA', borderColor:'#ADD8E6' }, // Use your desired highlight color
+                emphasis: { color: '#0F52BA' } // Use the same or different color for emphasis
+            } : {},
+        }));
+
+        this.setState({ chartData });
+    };
+
+    getChartData(dataset) {
+        const data = dataset === 'math'
+            ? [34, 41, 27, 16, 36]
+            : [24, 17, 23, 12, 31];
+        return {
+            xAxis: {
+                type: 'category',
+                data: ['Original', 'Simp_700', 'Simp_900', 'Simp_1200', 'Simp_min'],
+            },
+            yAxis: {
+                type: 'value',
+                name: 'Lexile',
+            },
+            series: [{
+                data,
+                type: 'bar',
+                // Additional bar chart styling if needed
+            }],
+        };
     };
 
     toggleAnswer = () => {
@@ -135,6 +181,12 @@ class VisualText extends Component {
     componentDidMount() {
         // Set the initial text when the component mounts
         this.setInitialText();
+        this.setChartData(this.state.dataset);
+    }
+
+    setChartData(dataset) {
+        const chartData = this.getChartData(dataset);
+        this.setState({ chartData });
     }
 
     setInitialText = () => {
@@ -157,8 +209,9 @@ class VisualText extends Component {
             textVersions: textVersions[validIndex] || ["", "", "", "", ""],
             currentText: textVersions[validIndex][0] || "",
             lines: this.splitTextIntoLines(textVersions[validIndex][0] || "", 85),
-            key: `${dataset}-${validIndex}`, 
+            key: `${dataset}-${validIndex}`,
             simplificationLevel: 0,
+            chartData: this.getChartData(dataset),
         });
     };
 
@@ -173,7 +226,7 @@ class VisualText extends Component {
             textVersions: textVersions[validIndex] || ["", "", "", "", ""],
             currentText: textVersions[validIndex][0] || "",
             lines: this.splitTextIntoLines(textVersions[validIndex][0] || "", 85),
-            key: `${dataset}-${validIndex}`, 
+            key: `${dataset}-${validIndex}`,
             simplificationLevel: 0,
         });
     };
@@ -192,6 +245,10 @@ class VisualText extends Component {
         });
     };
 
+    setSimplificationLevel = (level) => {
+        this.updateText(level);
+    };
+
     splitTextIntoLines(text, maxLineWidth) {
         const words = text.split(/\s+/);
         const lines = [];
@@ -199,18 +256,18 @@ class VisualText extends Component {
 
         words.forEach(word => {
             if (/\([ABCD]\)/.test(word)) {
-                
+
                 if (currentLine.length > 0) {
-                    lines.push(currentLine); 
+                    lines.push(currentLine);
                 }
-                currentLine = word; 
+                currentLine = word;
             } else {
                 const newLine = currentLine.length > 0 ? `${currentLine} ${word}` : word;
                 if (newLine.length > maxLineWidth) {
-                    lines.push(currentLine); 
+                    lines.push(currentLine);
                     currentLine = word;
                 } else {
-                    currentLine = newLine; 
+                    currentLine = newLine;
                 }
             }
         });
@@ -218,7 +275,7 @@ class VisualText extends Component {
         if (currentLine.length > 0) {
             lines.push(currentLine);
         }
-    
+
         return lines;
     }
 
@@ -229,18 +286,18 @@ class VisualText extends Component {
     };
 
     render() {
-        const { lines, simplificationLevel, dataset, questionNumber, resetAnimationKey,showAnswer } = this.state;
+        const { lines, simplificationLevel, dataset, questionNumber, resetAnimationKey, showAnswer } = this.state;
 
         const answer = this.state.textVersions[5];
 
         // Define the SVG viewBox dimensions
-        const viewBoxWidth = 1000; 
+        const viewBoxWidth = 1000;
         const viewBoxHeight = 500;
 
         // Calculate the center position for the text
         const xCenter = 0;
-        const yStart = 100; 
-        const lineHeight = 40; 
+        const yStart = 100;
+        const lineHeight = 40;
 
         return (
             <div className="container">
@@ -273,30 +330,28 @@ class VisualText extends Component {
                         />
                     ))}
                 </svg>
-                <div className="answer-control">
-                    <button onClick={this.toggleAnswer} className="answer-toggle">
-                        {showAnswer ? "Hide Answer" : "View Answer"}
-                    </button>
-                    {showAnswer && (
-                        <div className="answer-text">{answer}</div>
-                    )}
-                </div>
-                <div className="slider-container">
-                    <input
-                        type="range"
-                        min="0"
-                        max="4"
-                        value={simplificationLevel}
-                        onChange={this.handleSliderChange}
-                        step="1"
-                        className="slider"
-                    />
-                    <div className="labels-container">
-                        <label className="slider-label">Original</label>
-                        <label className="slider-label">Simp_min</label>
-                        <label className="slider-label">Simp_700</label>
-                        <label className="slider-label">Simp_900</label>
-                        <label className="slider-label">Simp_1200</label>
+                <div className="visual">
+                    <div className="left">
+                        <div className="answer-control">
+                            <button onClick={this.toggleAnswer} className="answer-toggle">
+                                {showAnswer ? "Hide Answer" : "View Answer"}
+                            </button>
+                            {showAnswer && (
+                                <div className="answer-text">{answer}</div>
+                            )}
+                        </div>
+                        <div className="button-container">
+                            <button onClick={() => {this.highlightBar(0);this.setSimplificationLevel(0)}} className={`button ${simplificationLevel === 0 ? 'active' : ''}`}>Original</button>
+                            <button onClick={() => {this.highlightBar(2);this.setSimplificationLevel(2)}} className={`button ${simplificationLevel === 2 ? 'active' : ''}`}>Simp_700</button>
+                            <button onClick={() => {this.highlightBar(3);this.setSimplificationLevel(3)}} className={`button ${simplificationLevel === 3 ? 'active' : ''}`}>Simp_900</button>
+                            <button onClick={() => {this.highlightBar(4);this.setSimplificationLevel(4)}} className={`button ${simplificationLevel === 4 ? 'active' : ''}`}>Simp_1200</button>
+                            <button onClick={() => {this.highlightBar(1);this.setSimplificationLevel(1)}} className={`button ${simplificationLevel === 1 ? 'active' : ''}`}>Simp_min</button>
+                        </div>
+                    </div>
+                    <div className="right">
+                        <div className="chart-container">
+                            {this.state.chartData && <ReactECharts option={this.state.chartData} />}
+                        </div>
                     </div>
                 </div>
                 <a href="https://forms.gle/Ud8qdSxiUw5quTBQA" className="survey-link">Take our survey</a>

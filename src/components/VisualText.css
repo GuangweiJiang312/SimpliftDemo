@@ -28,7 +28,7 @@
 
 .text-container {
     width: 100%;
-    height: 80%;
+    height: 40%;
     display: block;
     margin: 0 auto;
 }
@@ -57,18 +57,47 @@
 
 .survey-link {
     background-color: #444;
-    /* Style for the survey link */
     color: white;
-    padding: 10px 15px;
-    margin-top: 20px;
+    padding: 2px 3px;
+    font-size: 0.35rem; /* Smaller font size */
+    position: fixed; /* Fixed at the bottom */
+    bottom: 10px; /* 10px from the bottom */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Offset by half its width to center */
     border-radius: 5px;
     text-decoration: none;
     transition: background-color 0.3s ease;
+    z-index: 1000; /* Ensure it's above other elements */
 }
 
 .survey-link:hover {
     background-color: #555;
-    /* Hover effect */
+}
+
+.visual {
+    display: flex;
+    width: 100%;
+    height: 40%;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.left {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10%;
+}
+
+.right {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10%;
 }
 
 .selectors {
@@ -97,34 +126,77 @@
     /* Increase font size for readability */
 }
 
-@media (max-width: 600px) {
-    .selectors select {
-        padding: 10px;
-        font-size: 0.9rem;
-    }
-}
-
 .answer-control {
-    text-align: right;
+    display: flex;
+    text-align: center;
+    margin-bottom: 10px;
+    width: 200px;
 }
 
 .answer-toggle {
-    background-color: #333; /* Match the back button background */
-    color: white; /* Match the text color */
+    width: 100%;
+    background-color: #333;
+    color: white;
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 1rem;
-    margin-left: 20px; /* Space from the slider */
 }
 
 .answer-text {
-    background-color: #444; /* Slightly different background for contrast */
+    background-color: #444;
     color: white;
     padding: 10px 15px;
-    margin-top: 10px; /* Space from the toggle button */
+    margin-top: 10px;
     border-radius: 5px;
-    display: inline-block; /* Make it align to the right */
     text-align: center;
+    width: 35%;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align left */
+    width: 200px; /* Adjusted width */
+    margin-bottom: 50px;
+}
+
+.button {
+    width: 100%; /* Full width of container */
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    margin: 4px 0; /* 4px margin between buttons */
+    border: 0.5px solid gray; /* Gray outer border */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+}
+
+.button:hover {
+    background-color: #555;
+}
+
+.button.active {
+    background-color: #777;
+}
+
+.chart-container {
+    width: 90%;
+    height: 100%;
+}
+
+@media (max-width: 600px) {
+    .selectors select {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+    .left, .right {
+        width: 100%;
+    }
+    .visual {
+        flex-direction: column;
+    }
 }
