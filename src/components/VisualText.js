@@ -120,13 +120,32 @@ class VisualText extends Component {
         dataset: 'math',
         questionNumber: 0,
         simplificationLevel: 0,
-        textVersions: mathQuestions[0] || ["", "", "", "", ""], // Default to an array of empty strings if data is not loaded
+        textVersions: mathQuestions[0] || ["", "", "", "", ""], 
         currentText: mathQuestions[0] ? mathQuestions[0][0] : "",
         lines: [],
         key: 'math-0',
         showAnswer: false,
         chartData: null,
         highlightedBar: null,
+        lexileData: {
+            math: [
+                [1226, 894, 1062, 1104, 977],
+                [1293, 1014, 883, 818, 805],
+                [1052, 1026, 841, 820, 698],
+                [996, 911, 784, 795, 960],
+                [1460, 1185, 1192, 1047, 1040],
+                [1219, 1033, 700, 913, 694],
+                [1127, 1041, 1107, 914, 918],
+                [1234, 1011, 891, 998, 992],
+                [1216, 1179, 912, 931, 832]
+            ],
+            science: [
+                [892, 867, 719, 692, 696],
+                [1266, 911, 788, 793, 867],
+                [1812, 968, 1631, 1126, 1602],
+                [654, 631, 517, 487, 414]
+            ],
+        },
     };
 
     highlightBar(level) {
@@ -137,25 +156,32 @@ class VisualText extends Component {
 
     updateChartDataWithHighlight(level) {
         const dataset = this.state.dataset;
-        const chartData = this.getChartData(dataset);
+        const questionNumber = this.state.questionNumber;
+        const chartData = this.getChartData(dataset, questionNumber);
 
         // Apply emphasis style to the highlighted bar
         chartData.series[0].data = chartData.series[0].data.map((value, index) => ({
             value,
             itemStyle: index === level ? {
-                normal: { color: '#0F52BA', borderColor:'#ADD8E6' }, // Use your desired highlight color
-                emphasis: { color: '#0F52BA' } // Use the same or different color for emphasis
+                normal: { color: '#0F52BA', borderColor: '#ADD8E6' }, 
+                emphasis: { color: '#0F52BA' } 
             } : {},
         }));
 
         this.setState({ chartData });
     };
 
-    getChartData(dataset) {
-        const data = dataset === 'math'
-            ? [34, 41, 27, 16, 36]
-            : [24, 17, 23, 12, 31];
+    getChartData(dataset, questionNumber) {
+        const data = this.state.lexileData[dataset][questionNumber] || [];
+
         return {
+            grid: {
+                left: '10%',
+                right: '10%',
+                bottom: '15%',
+                top: '3%',
+                containLabel: true
+            },
             xAxis: {
                 type: 'category',
                 data: ['Original', 'Simp_1200', 'Simp_900', 'Simp_700', 'Simp_minimal'],
@@ -167,25 +193,35 @@ class VisualText extends Component {
             series: [{
                 data,
                 type: 'bar',
-                // Additional bar chart styling if needed
+                barWidth: '50%', 
+                
             }],
+            
         };
     };
 
     toggleAnswer = () => {
         this.setState(prevState => ({
             showAnswer: !prevState.showAnswer
-        }));
+        }), () => {
+            
+            const answerControl = document.querySelector('.answer-control');
+            if (this.state.showAnswer) {
+                answerControl.classList.add('show');
+            } else {
+                answerControl.classList.remove('show');
+            }
+        });
     };
 
     componentDidMount() {
-        // Set the initial text when the component mounts
+        
         this.setInitialText();
-        this.setChartData(this.state.dataset);
+        this.setChartData(this.state.dataset, this.state.questionNumber);
     }
 
-    setChartData(dataset) {
-        const chartData = this.getChartData(dataset);
+    setChartData(dataset, questionNumber) {
+        const chartData = this.getChartData(dataset, questionNumber);
         this.setState({ chartData });
     }
 
@@ -211,7 +247,7 @@ class VisualText extends Component {
             lines: this.splitTextIntoLines(textVersions[validIndex][0] || "", 85),
             key: `${dataset}-${validIndex}`,
             simplificationLevel: 0,
-            chartData: this.getChartData(dataset),
+            chartData: this.getChartData(dataset, validIndex),
         });
     };
 
@@ -228,6 +264,7 @@ class VisualText extends Component {
             lines: this.splitTextIntoLines(textVersions[validIndex][0] || "", 85),
             key: `${dataset}-${validIndex}`,
             simplificationLevel: 0,
+            chartData: this.getChartData(dataset, validIndex),
         });
     };
 
@@ -279,22 +316,14 @@ class VisualText extends Component {
         return lines;
     }
 
-    goBack = () => {
-        // Logic to go back to the previous page
-        // For example, using react-router's history object:
-        // this.props.history.goBack();
-    };
-
     render() {
         const { lines, simplificationLevel, dataset, questionNumber, resetAnimationKey, showAnswer } = this.state;
 
         const answer = this.state.textVersions[5];
 
-        // Define the SVG viewBox dimensions
         const viewBoxWidth = 1000;
         const viewBoxHeight = 500;
 
-        // Calculate the center position for the text
         const xCenter = 0;
         const yStart = 100;
         const lineHeight = 40;
@@ -313,14 +342,12 @@ class VisualText extends Component {
                     </select>
                 </div>
                 <button className="back-button" onClick={this.props.previousPage}>Back</button>
-                <h2>Text Simplification Animator</h2>
                 <svg
                     className="text-container"
                     viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`}
                     preserveAspectRatio="xMidYMid meet"
                 >
                     {lines.map((line, index) => (
-                        console.log(line),
                         <FancyText
                             key={`${this.state.key}-${resetAnimationKey}-${index}`}
                             x={xCenter}
@@ -332,20 +359,20 @@ class VisualText extends Component {
                 </svg>
                 <div className="visual">
                     <div className="left">
-                        <div className="answer-control">
+                        <div className={`answer-control ${showAnswer ? 'show' : ''}`}>
                             <button onClick={this.toggleAnswer} className="answer-toggle">
                                 {showAnswer ? "Hide Answer" : "View Answer"}
                             </button>
-                            {showAnswer && (
-                                <div className="answer-text">{answer}</div>
-                            )}
+                            <div className="answer-text">
+                                {showAnswer ? answer : ''}
+                            </div>
                         </div>
                         <div className="button-container">
-                            <button onClick={() => {this.highlightBar(0);this.setSimplificationLevel(0)}} className={`button ${simplificationLevel === 0 ? 'active' : ''}`}>Original</button>
-                            <button onClick={() => {this.highlightBar(1);this.setSimplificationLevel(4)}} className={`button ${simplificationLevel === 4 ? 'active' : ''}`}>Simp_1200</button>
-                            <button onClick={() => {this.highlightBar(2);this.setSimplificationLevel(3)}} className={`button ${simplificationLevel === 3 ? 'active' : ''}`}>Simp_900</button>
-                            <button onClick={() => {this.highlightBar(3);this.setSimplificationLevel(2)}} className={`button ${simplificationLevel === 2 ? 'active' : ''}`}>Simp_700</button>
-                            <button onClick={() => {this.highlightBar(4);this.setSimplificationLevel(1)}} className={`button ${simplificationLevel === 1 ? 'active' : ''}`}>Simp_min</button>
+                            <button onClick={() => { this.highlightBar(0); this.setSimplificationLevel(0) }} className={`button ${simplificationLevel === 0 ? 'active' : ''}`}>Original</button>
+                            <button onClick={() => { this.highlightBar(1); this.setSimplificationLevel(4) }} className={`button ${simplificationLevel === 4 ? 'active' : ''}`}>Simp_1200</button>
+                            <button onClick={() => { this.highlightBar(2); this.setSimplificationLevel(3) }} className={`button ${simplificationLevel === 3 ? 'active' : ''}`}>Simp_900</button>
+                            <button onClick={() => { this.highlightBar(3); this.setSimplificationLevel(2) }} className={`button ${simplificationLevel === 2 ? 'active' : ''}`}>Simp_700</button>
+                            <button onClick={() => { this.highlightBar(4); this.setSimplificationLevel(1) }} className={`button ${simplificationLevel === 1 ? 'active' : ''}`}>Simp_minimal</button>
                         </div>
                     </div>
                     <div className="right">

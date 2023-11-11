@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { TransitionGroup } from "react-transition-group";
-import * as d3 from "d3";
+// import * as d3 from "d3";
 import Letter from "./Letter";
 
 class FancyText extends Component {

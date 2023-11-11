@@ -11,7 +11,7 @@ const App = () => {
   };
 
   const previousPage = () => {
-    setPage(0); // Change the page state back to 0 to show the Background component
+    setPage(0); 
   };
 
   const getPageComponent = () => {
