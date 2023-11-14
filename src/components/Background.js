@@ -5,7 +5,7 @@ const Background = ({ nextPage }) => {
   return (
     <div className="background-container">
       <div className="content">
-        <h1>Research Introduction</h1>
+        <h1>Targeted Text Simplification</h1>
         <p>Language is everywhere, and we know that when students struggle with language and reading, that doesn’t stop when they leave the therapy room.</p>
         <p>Students with language and literacy disorders have difficulty across the curriculum, including in math and science. Students with Developmental Language Disorder and Dyslexia score below their peers not only in language, but also math. Importantly, these students don’t catch up to their peers by fourth grade.</p>
         <div className="image-container">
