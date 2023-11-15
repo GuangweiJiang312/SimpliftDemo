@@ -119,9 +119,10 @@ class VisualText extends Component {
     state = {
         dataset: 'math',
         questionNumber: 0,
-        simplificationLevel: 0,
+        simplificationLevel: 1,
         textVersions: mathQuestions[0] || ["", "", "", "", ""], 
-        currentText: mathQuestions[0] ? mathQuestions[0][0] : "",
+        currentText: mathQuestions[0] ? mathQuestions[0][1] : "",
+	original_lines: [],
         lines: [],
         key: 'math-0',
         showAnswer: false,
@@ -147,6 +148,7 @@ class VisualText extends Component {
             ],
         },
     };
+    orig_ref = React.createRef();
 
     highlightBar(level) {
         this.setState({ highlightedBar: level }, () => {
@@ -229,6 +231,7 @@ class VisualText extends Component {
         const { textVersions, simplificationLevel } = this.state;
         this.setState({
             currentText: textVersions[simplificationLevel],
+            original_lines: this.splitTextIntoLines(textVersions[0], 85),
             lines: this.splitTextIntoLines(textVersions[simplificationLevel], 85)
         });
     }
@@ -243,10 +246,11 @@ class VisualText extends Component {
             dataset: dataset,
             questionNumber: validIndex,
             textVersions: textVersions[validIndex] || ["", "", "", "", ""],
-            currentText: textVersions[validIndex][0] || "",
-            lines: this.splitTextIntoLines(textVersions[validIndex][0] || "", 85),
+            currentText: textVersions[validIndex][1] || "",
+            original_lines: this.splitTextIntoLines(textVersions[validIndex][0] || "", 85),
+            lines: this.splitTextIntoLines(textVersions[validIndex][1] || "", 85),
             key: `${dataset}-${validIndex}`,
-            simplificationLevel: 0,
+            simplificationLevel: 1,
             chartData: this.getChartData(dataset, validIndex),
         });
     };
@@ -255,15 +259,16 @@ class VisualText extends Component {
         const questionNumber = parseInt(event.target.value, 10);
         const dataset = this.state.dataset;
         const textVersions = dataset === 'math' ? mathQuestions : scienceQuestions;
-        const validIndex = questionNumber >= 0 && questionNumber < textVersions.length ? questionNumber : 0;
+        const validIndex = questionNumber > 0 && questionNumber < textVersions.length ? questionNumber : 1;
 
         this.setState({
             questionNumber: validIndex,
             textVersions: textVersions[validIndex] || ["", "", "", "", ""],
-            currentText: textVersions[validIndex][0] || "",
-            lines: this.splitTextIntoLines(textVersions[validIndex][0] || "", 85),
+            currentText: textVersions[validIndex][1] || "",
+            original_lines: this.splitTextIntoLines(textVersions[validIndex][0] || "", 85),
+            lines: this.splitTextIntoLines(textVersions[validIndex][1] || "", 85),
             key: `${dataset}-${validIndex}`,
-            simplificationLevel: 0,
+            simplificationLevel: 1,
             chartData: this.getChartData(dataset, validIndex),
         });
     };
@@ -278,6 +283,7 @@ class VisualText extends Component {
         this.setState({
             simplificationLevel: level,
             currentText: newText,
+            original_lines: this.splitTextIntoLines(this.state.textVersions[0], 85),
             lines: this.splitTextIntoLines(newText, 85)
         });
     };
@@ -317,17 +323,18 @@ class VisualText extends Component {
     }
 
     render() {
-        const { lines, simplificationLevel, dataset, questionNumber, resetAnimationKey, showAnswer } = this.state;
+        const { original_lines, lines, simplificationLevel, dataset, questionNumber, resetAnimationKey, showAnswer } = this.state;
 
         const answer = this.state.textVersions[5];
         const original_q = this.state.textVersions[0];
 
-        const viewBoxWidth = 1000;
-        const viewBoxHeight = 500;
+        const viewBoxWidth = 1000; // 0.8 * window.innerWidth; //1000; 
+        const viewBoxHeight = 500; //original_lines.length * viewBoxWidth * 0.2; // viewBoxWidth; //500;
 
         const xCenter = 0;
-        const yStart = 100;
+        const yStart = 0.1 * window.innerHeight;
         const lineHeight = 40;
+
 
         return (
             <div className="container">
@@ -343,9 +350,34 @@ class VisualText extends Component {
                     </select>
                 </div>
                 <button className="back-button" onClick={this.props.previousPage}>Back</button>
-                <div className="visual">
-                    Original question: {original_q}
-                </div>
+                <div className="logo">
+			<img src="https://github.com/GuangweiJiang312/SimpliftDemo/blob/c4233813477578ee1fca3efe8cf87e9c42f27a3f/public/banner_edai_logo.png"/>
+		</div>
+                <svg
+                    className="text-container"
+                    viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`}
+                    preserveAspectRatio="xMidYMid meet"
+                >
+                    {original_lines.map((line, index) => (
+                        <FancyText
+                            key={`${this.state.key}-${resetAnimationKey}-${index}`}
+                            x={xCenter}
+                            y={yStart + index * lineHeight}
+                            text={line}
+                            textAnchor="middle"
+                        />
+                    ))}
+                </svg>
+		<text
+                    x={0}
+                    y={viewBoxHeight} //lineHeight}
+                    style={{
+                        fillOpacity: 0.5,
+                        fill: "yellow",
+                        font: "14px monospace"
+                    }}
+                >
+		    Simplified:</text>
                 <svg
                     className="text-container"
                     viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`}
