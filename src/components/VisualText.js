@@ -320,6 +320,7 @@ class VisualText extends Component {
         const { lines, simplificationLevel, dataset, questionNumber, resetAnimationKey, showAnswer } = this.state;
 
         const answer = this.state.textVersions[5];
+        const original_q = this.state.textVersions[0];
 
         const viewBoxWidth = 1000;
         const viewBoxHeight = 500;
@@ -342,6 +343,9 @@ class VisualText extends Component {
                     </select>
                 </div>
                 <button className="back-button" onClick={this.props.previousPage}>Back</button>
+                <div className="visual">
+                    Original question: {original_q}
+                </div>
                 <svg
                     className="text-container"
                     viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`}
