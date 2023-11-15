@@ -46,6 +46,11 @@ p {
     text-align: center; 
     margin: 2% auto;
 }
+.demo-image {
+    width: 80%;
+    object-fit: cover; 
+    border-radius: 8px;
+}
 
 .research-image {
     width: 400px;

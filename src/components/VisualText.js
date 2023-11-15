@@ -326,7 +326,6 @@ class VisualText extends Component {
         const { original_lines, lines, simplificationLevel, dataset, questionNumber, resetAnimationKey, showAnswer } = this.state;
 
         const answer = this.state.textVersions[5];
-        const original_q = this.state.textVersions[0];
 
         const viewBoxWidth = 1000; // 0.8 * window.innerWidth; //1000; 
         const viewBoxHeight = 500; //original_lines.length * viewBoxWidth * 0.2; // viewBoxWidth; //500;
@@ -351,7 +350,7 @@ class VisualText extends Component {
                 </div>
                 <button className="back-button" onClick={this.props.previousPage}>Back</button>
                 <div className="logo">
-			<img src={process.env.PUBLIC_URL + "/banner_edai_logo.png"}/>
+			<img src={process.env.PUBLIC_URL + "/banner_edai_logo.png"} alt="banner"/>
 		</div>
                 <svg
                     className="text-container"

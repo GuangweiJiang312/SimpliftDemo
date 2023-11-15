@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import FancyText from './FancyText';
 import './Background.css';
-import ReactECharts from 'echarts-for-react';
 
 class Method extends Component {
 
