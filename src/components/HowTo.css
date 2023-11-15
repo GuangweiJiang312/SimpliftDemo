@@ -1,66 +1,76 @@
-.background-container {
-    color: white;
+html,
+body {
+    margin: 0;
+    padding: 0;
     background-color: black;
-    width: 100%;
-    min-height: 100vh; 
-    display: flex;
-    flex-direction: column; 
-    align-items: center;
-    justify-content: space-between; 
-    padding: 5% 0; 
+    /* Set the background color for the entire page */
+    color: white;
+    /* Default text color */
+    height: 100%;
+    /* Full height */
 }
 
-.content {
+.background-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5% 0;
+}
+
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #333;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.container {
     width: 90%;
     max-width: 1200px;
-    text-align: left; 
     margin: 0 auto;
-    padding: 0 5%; 
+    text-align: center;
+    /* Center align content if that's the design */
 }
 
-h1 {
-    text-align: center; 
-    margin-bottom: 2%;
-}
-
+h2,
 p {
-    margin-bottom: 1%; 
-    line-height: 1.6; 
+    margin-bottom: 1%;
+    line-height: 1.6;
 }
 
 .image-container {
-    text-align: center; 
     margin: 2% auto;
+    text-align: center;
 }
 
-.research-image {
-    width: 400px;
-    height: 240px;
-    object-fit: cover; 
+.demo-image {
+    width: 80%;
+    object-fit: cover;
     border-radius: 8px;
 }
 
-.image-caption {
-    color: gray;
-    font-size: 0.8em;
-    margin-top: 0.5em; 
-    text-align: center; 
-}
-
 .next-button {
-    align-self: center; 
+    align-self: center;
     background-color: white;
     color: black;
     border: 2px solid gray;
-    padding: 1% 2%; 
+    padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 5em;
+    font-size: 1em;
+    /* Adjust font size as needed */
     font-weight: bold;
     transition: background-color 0.3s;
-    margin-left: 40%;
-    width: 20%;
-    height: 60px;
+    margin-top: 2%;
+    /* Add margin to position the button */
 }
 
 .next-button:hover {
@@ -69,12 +79,9 @@ p {
 }
 
 @media (max-width: 600px) {
-    .content, .next-button {
-        width: 90%; 
-        padding: 0; 
-    }
 
+    .container,
     .next-button {
-        padding: 10px 0;
+        width: 90%;
     }
 }

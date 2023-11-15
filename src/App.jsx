@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import VisualText from './components/VisualText';
 import Background from './components/Background';
 import HowTo from './components/HowTo';
@@ -8,12 +8,20 @@ import './App.css';
 const App = () => {
   const [page, setPage] = useState(0);
 
+  const scrollToTop = () => {
+    window.scrollTo(0, 0);
+  };
+
+  useEffect(() => {
+    scrollToTop();
+  }, [page]);
+
   const nextPage = () => {
     setPage((currentPage) => currentPage + 1);
   };
 
   const previousPage = () => {
-    setPage((currentPage) => currentPage - 1); 
+    setPage((currentPage) => currentPage - 1);
   };
 
   const getPageComponent = () => {
@@ -21,11 +29,11 @@ const App = () => {
       case 0:
         return <Background nextPage={nextPage} />;
       case 1:
-	return <HowTo nextPage={nextPage} previousPage={previousPage} />;
+        return <HowTo nextPage={nextPage} previousPage={previousPage} />;
       case 2:
-        return <VisualText nextPage={nextPage} previousPage={previousPage}/>;
+        return <VisualText nextPage={nextPage} previousPage={previousPage} />;
       case 3:
-        return <Method previousPage={previousPage}/>;
+        return <Method previousPage={previousPage} />;
       default:
         return <Background nextPage={nextPage} />;
     }

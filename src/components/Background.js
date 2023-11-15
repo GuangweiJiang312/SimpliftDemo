@@ -6,9 +6,9 @@ const Background = ({ nextPage }) => {
     <div className="background-container">
       <div className="content">
         <div className="logo">
-		<img src={process.env.PUBLIC_URL + "/banner_edai_logo.png"} alt="banner"/>
-	</div>
-	<p></p>
+          <img src={process.env.PUBLIC_URL + "/banner_edai_logo.png"} alt="banner" />
+        </div>
+        <p></p>
         <h1>Targeted Text Simplification</h1>
         <p>Language is everywhere, and we know that when students struggle with language and reading, that doesn’t stop when they leave the therapy room.</p>
         <p>Students with language and literacy disorders have difficulty across the curriculum, including in math and science. Students with Developmental Language Disorder and Dyslexia score below their peers not only in language, but also math. Importantly, these students don’t catch up to their peers by fourth grade.</p>
