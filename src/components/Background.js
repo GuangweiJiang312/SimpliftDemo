@@ -15,7 +15,7 @@ const Background = ({ nextPage }) => {
         <p>But there’s a lot of language and reading in these other subjects. We teach math through language. Students are expected to read word problems when they are tested on math. One option to provide access to math and science curriculum and accurately assess their skills in these areas is to change the reading level of texts across the curriculum.</p>
         <p>We know, however, that each student is different. Some have difficulties in decoding words, others have difficulties in understanding grammar or vocabulary.</p>
         <p>We are trying to tailor texts across the curriculum to students’ individual needs. The ultimate goal is to provide individualized texts to provide students access to important content while also responsively increasing the complexity to keep the content within the child’s Zone of Proximal Development to improve language skills at the same time.</p>
-        <button className="next-button" onClick={nextPage}>Explore</button>
+        <button className="next-button" onClick={nextPage}>Next</button>
       </div>
     </div>
   );

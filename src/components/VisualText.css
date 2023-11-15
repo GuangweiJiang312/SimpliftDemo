@@ -14,7 +14,7 @@
     position: absolute;
     top: 20px;
     right: 20px;
-    width: 10%;
+    width: 15%;
     object-fit: fill;
 }
 
@@ -66,7 +66,7 @@
     font-size: 1rem; 
     position: fixed; 
     bottom: 10px; 
-    left: 50%; 
+    left: 45%; 
     transform: translateX(-50%); 
     border-radius: 5px;
     text-decoration: none;
@@ -77,6 +77,25 @@
 .survey-link:hover {
     background-color: #555;
 }
+
+.info-button {
+    background-color: #444;
+    color: white;
+    padding: 1% 2%;
+    font-size: 1rem; 
+    position: fixed; 
+    bottom: 10px; 
+    left: 60%; 
+    transform: translateX(-50%); 
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    z-index: 1000; 
+}
+.info-button:hover {
+    background-color: #555;
+}
+
 
 .visual {
     display: flex;

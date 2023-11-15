@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import VisualText from './components/VisualText';
 import Background from './components/Background';
+import HowTo from './components/HowTo';
+import Method from './components/Method';
 import './App.css';
 
 const App = () => {
@@ -11,7 +13,7 @@ const App = () => {
   };
 
   const previousPage = () => {
-    setPage(0); 
+    setPage((currentPage) => currentPage - 1); 
   };
 
   const getPageComponent = () => {
@@ -19,7 +21,11 @@ const App = () => {
       case 0:
         return <Background nextPage={nextPage} />;
       case 1:
-        return <VisualText previousPage={previousPage}/>;
+	return <HowTo nextPage={nextPage} previousPage={previousPage} />;
+      case 2:
+        return <VisualText nextPage={nextPage} previousPage={previousPage}/>;
+      case 3:
+        return <Method previousPage={previousPage}/>;
       default:
         return <Background nextPage={nextPage} />;
     }

@@ -351,7 +351,7 @@ class VisualText extends Component {
                 </div>
                 <button className="back-button" onClick={this.props.previousPage}>Back</button>
                 <div className="logo">
-			<img src="https://github.com/GuangweiJiang312/SimpliftDemo/blob/c4233813477578ee1fca3efe8cf87e9c42f27a3f/public/banner_edai_logo.png"/>
+			<img src={process.env.PUBLIC_URL + "/banner_edai_logo.png"}/>
 		</div>
                 <svg
                     className="text-container"
@@ -418,6 +418,7 @@ class VisualText extends Component {
                     </div>
                 </div>
                 <a href="https://forms.gle/Ud8qdSxiUw5quTBQA" className="survey-link">Take our survey</a>
+                <div className="info-button" onClick={this.props.nextPage}>Read about our method.</div>
             </div>
         );
     }
