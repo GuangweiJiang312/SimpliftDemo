@@ -53,8 +53,7 @@ p {
 }
 
 .research-image {
-    width: 400px;
-    height: 240px;
+    width: 70%;
     object-fit: cover; 
     border-radius: 8px;
 }

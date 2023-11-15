@@ -8,6 +8,9 @@ class HowTo extends Component {
         return (
             <div className="container">
                 <button className="back-button" onClick={this.props.previousPage}>Back</button>
+                <div className="logo">
+			<img src={process.env.PUBLIC_URL + "/banner_edai_logo.png"} alt="banner"/>
+		</div>
       		<div className="content">
         <div className="image-container">
           <img src={process.env.PUBLIC_URL + "/howto.png"} alt="How To" className="demo-image"/>
