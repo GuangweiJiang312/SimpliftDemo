@@ -1,0 +1,99 @@
+.background-container {
+    color: white;
+    background-color: black;
+    width: 100%;
+    /* min-height: 100vh;  */
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    justify-content: space-between; 
+    padding: 5% 0; 
+}
+
+
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #333;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.content1 {
+    width: 90%;
+    max-width: 1200px;
+    text-align: left; 
+    margin: 0 auto;
+    /* margin-top: 15%; */
+    padding: 0 5%; 
+}
+
+h1 {
+    text-align: center; 
+    margin-bottom: 2%;
+}
+
+p {
+    margin-bottom: 1%; 
+    line-height: 1.6; 
+}
+
+.image-container {
+    text-align: center; 
+    margin: 2% auto;
+}
+.demo-image {
+    width: 80%;
+    object-fit: cover; 
+    border-radius: 8px;
+}
+
+.research-image {
+    width: 70%;
+    object-fit: cover; 
+    border-radius: 8px;
+}
+
+.image-caption {
+    color: gray;
+    font-size: 0.8em;
+    margin-top: 0.5em; 
+    text-align: center; 
+}
+
+.next-button {
+    align-self: center; 
+    background-color: white;
+    color: black;
+    border: 2px solid gray;
+    padding: 1% 2%; 
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 5em;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    margin-left: 40%;
+    width: 20%;
+    height: 60px;
+}
+
+.next-button:hover {
+    background-color: gray;
+    color: white;
+}
+
+@media (max-width: 600px) {
+    .content, .next-button {
+        width: 90%; 
+        padding: 0; 
+    }
+
+    .next-button {
+        padding: 10px 0;
+    }
+}

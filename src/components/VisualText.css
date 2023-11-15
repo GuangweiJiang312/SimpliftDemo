@@ -62,11 +62,11 @@
 .survey-link {
     background-color: #444;
     color: white;
-    padding: 1% 2%;
+    padding: 0.8% 1.6%;
     font-size: 1rem; 
     position: fixed; 
     bottom: 10px; 
-    left: 45%; 
+    left: 43%; 
     transform: translateX(-50%); 
     border-radius: 5px;
     text-decoration: none;
@@ -81,11 +81,11 @@
 .info-button {
     background-color: #444;
     color: white;
-    padding: 1% 2%;
+    padding: 0.8% 1.6%;
     font-size: 1rem; 
     position: fixed; 
     bottom: 10px; 
-    left: 60%; 
+    left: 57%; 
     transform: translateX(-50%); 
     border-radius: 5px;
     text-decoration: none;
@@ -100,7 +100,7 @@
 .visual {
     display: flex;
     width: 100%;
-    height: 40%;
+    height: auto;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 5px;
@@ -112,7 +112,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-left: 10%;
+    margin-left: 5%;
 }
 
 .right {
@@ -120,7 +120,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 10%;
+    margin-right: 8%;
 }
 
 .selectors {
@@ -209,8 +209,8 @@
 }
 
 .chart-container {
-    width: 100%;
-    height: 100%;
+    width: 100%; 
+    height: auto; 
 }
 
 @media (max-width: 600px) {

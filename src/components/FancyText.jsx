@@ -56,7 +56,7 @@ class FancyText extends Component {
         let textWithIds = this.state.textWithIds.filter(entry => entry !== undefined);
 
         return (
-            <g transform={`translate(${x - 330}, ${y})`}>
+            <g transform={`translate(${x - 900}, ${y})`}>
                 <TransitionGroup component="g" enter={true} exit={true}>
                     {textWithIds.map(([l, id], i) => (
                         <Letter letter={l} index={i} key={id} />

@@ -120,9 +120,9 @@ class VisualText extends Component {
         dataset: 'math',
         questionNumber: 0,
         simplificationLevel: 1,
-        textVersions: mathQuestions[0] || ["", "", "", "", ""], 
+        textVersions: mathQuestions[0] || ["", "", "", "", ""],
         currentText: mathQuestions[0] ? mathQuestions[0][1] : "",
-	original_lines: [],
+        original_lines: [],
         lines: [],
         key: 'math-0',
         showAnswer: false,
@@ -165,8 +165,8 @@ class VisualText extends Component {
         chartData.series[0].data = chartData.series[0].data.map((value, index) => ({
             value,
             itemStyle: index === level ? {
-                normal: { color: '#0F52BA', borderColor: '#ADD8E6' }, 
-                emphasis: { color: '#0F52BA' } 
+                normal: { color: '#0F52BA', borderColor: '#ADD8E6' },
+                emphasis: { color: '#0F52BA' }
             } : {},
         }));
 
@@ -187,18 +187,55 @@ class VisualText extends Component {
             xAxis: {
                 type: 'category',
                 data: ['Original', 'Target 1200', 'Target 900', 'Target 700', 'Minimal Lexile'],
+                axisLine: {
+                    show: true,
+                    lineStyle: {
+                        color: 'white'
+                    },
+                    symbol: ['none', 'arrow'], // Add arrow symbol at the end
+                    symbolSize: [7, 10] // Adjust arrow size
+                },
+                axisTick: {
+                    show: false // Hide axis ticks
+                },
+                axisLabel: {
+                    show: true,
+                    textStyle: {
+                        color: 'white',
+                        fontSize: 12
+                    }
+                }
             },
             yAxis: {
                 type: 'value',
                 name: 'Lexile',
+                nameLocation: 'middle', // Adjust location of the axis name
+                nameTextStyle: {
+                    color: 'white',
+                    fontSize: 12,
+                    padding: [0, 0, 20, -40] // Adjust padding to move name to left
+                },
+                nameGap: 50, // Distance between axis name and axis line
+                splitLine: { show: true }, // Hide split lines
+                axisLine: {
+                    show: true,
+                    lineStyle: {
+                        color: 'white'
+                    },
+                    symbol: ['none', 'arrow'], // Add arrow symbol at the end
+                    symbolSize: [7, 10] // Adjust arrow size
+                },
+                axisTick: {
+                    show: true // Hide axis ticks
+                }
             },
             series: [{
                 data,
                 type: 'bar',
-                barWidth: '50%', 
-                
+                barWidth: '50%',
+
             }],
-            
+
         };
     };
 
@@ -206,7 +243,7 @@ class VisualText extends Component {
         this.setState(prevState => ({
             showAnswer: !prevState.showAnswer
         }), () => {
-            
+
             const answerControl = document.querySelector('.answer-control');
             if (this.state.showAnswer) {
                 answerControl.classList.add('show');
@@ -217,7 +254,7 @@ class VisualText extends Component {
     };
 
     componentDidMount() {
-        
+
         this.setInitialText();
         this.setChartData(this.state.dataset, this.state.questionNumber);
     }
@@ -231,8 +268,8 @@ class VisualText extends Component {
         const { textVersions, simplificationLevel } = this.state;
         this.setState({
             currentText: textVersions[simplificationLevel],
-            original_lines: this.splitTextIntoLines(textVersions[0], 85),
-            lines: this.splitTextIntoLines(textVersions[simplificationLevel], 85)
+            original_lines: this.splitTextIntoLines(textVersions[0], 100),
+            lines: this.splitTextIntoLines(textVersions[simplificationLevel], 100)
         });
     }
 
@@ -247,8 +284,8 @@ class VisualText extends Component {
             questionNumber: validIndex,
             textVersions: textVersions[validIndex] || ["", "", "", "", ""],
             currentText: textVersions[validIndex][1] || "",
-            original_lines: this.splitTextIntoLines(textVersions[validIndex][0] || "", 85),
-            lines: this.splitTextIntoLines(textVersions[validIndex][1] || "", 85),
+            original_lines: this.splitTextIntoLines(textVersions[validIndex][0] || "", 100),
+            lines: this.splitTextIntoLines(textVersions[validIndex][1] || "", 100),
             key: `${dataset}-${validIndex}`,
             simplificationLevel: 1,
             chartData: this.getChartData(dataset, validIndex),
@@ -265,8 +302,8 @@ class VisualText extends Component {
             questionNumber: validIndex,
             textVersions: textVersions[validIndex] || ["", "", "", "", ""],
             currentText: textVersions[validIndex][1] || "",
-            original_lines: this.splitTextIntoLines(textVersions[validIndex][0] || "", 85),
-            lines: this.splitTextIntoLines(textVersions[validIndex][1] || "", 85),
+            original_lines: this.splitTextIntoLines(textVersions[validIndex][0] || "", 100),
+            lines: this.splitTextIntoLines(textVersions[validIndex][1] || "", 100),
             key: `${dataset}-${validIndex}`,
             simplificationLevel: 1,
             chartData: this.getChartData(dataset, validIndex),
@@ -283,8 +320,8 @@ class VisualText extends Component {
         this.setState({
             simplificationLevel: level,
             currentText: newText,
-            original_lines: this.splitTextIntoLines(this.state.textVersions[0], 85),
-            lines: this.splitTextIntoLines(newText, 85)
+            original_lines: this.splitTextIntoLines(this.state.textVersions[0], 100),
+            lines: this.splitTextIntoLines(newText, 100)
         });
     };
 
@@ -350,8 +387,8 @@ class VisualText extends Component {
                 </div>
                 <button className="back-button" onClick={this.props.previousPage}>Back</button>
                 <div className="logo">
-			<img src={process.env.PUBLIC_URL + "/banner_edai_logo.png"} alt="banner"/>
-		</div>
+                    <img src={process.env.PUBLIC_URL + "/banner_edai_logo.png"} alt="banner" />
+                </div>
                 <svg
                     className="text-container"
                     viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`}
@@ -367,7 +404,7 @@ class VisualText extends Component {
                         />
                     ))}
                 </svg>
-		<text
+                <text
                     x={0}
                     y={viewBoxHeight} //lineHeight}
                     style={{
@@ -376,7 +413,7 @@ class VisualText extends Component {
                         font: "14px monospace"
                     }}
                 >
-		    Simplified:</text>
+                    Simplified:</text>
                 <svg
                     className="text-container"
                     viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`}
