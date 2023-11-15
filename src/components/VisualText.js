@@ -184,7 +184,7 @@ class VisualText extends Component {
             },
             xAxis: {
                 type: 'category',
-                data: ['Original', 'Simp_1200', 'Simp_900', 'Simp_700', 'Simp_minimal'],
+                data: ['Original', 'Target 1200', 'Target 900', 'Target 700', 'Minimal Lexile'],
             },
             yAxis: {
                 type: 'value',
@@ -369,10 +369,10 @@ class VisualText extends Component {
                         </div>
                         <div className="button-container">
                             <button onClick={() => { this.highlightBar(0); this.setSimplificationLevel(0) }} className={`button ${simplificationLevel === 0 ? 'active' : ''}`}>Original</button>
-                            <button onClick={() => { this.highlightBar(1); this.setSimplificationLevel(4) }} className={`button ${simplificationLevel === 4 ? 'active' : ''}`}>Simp_1200</button>
-                            <button onClick={() => { this.highlightBar(2); this.setSimplificationLevel(3) }} className={`button ${simplificationLevel === 3 ? 'active' : ''}`}>Simp_900</button>
-                            <button onClick={() => { this.highlightBar(3); this.setSimplificationLevel(2) }} className={`button ${simplificationLevel === 2 ? 'active' : ''}`}>Simp_700</button>
-                            <button onClick={() => { this.highlightBar(4); this.setSimplificationLevel(1) }} className={`button ${simplificationLevel === 1 ? 'active' : ''}`}>Simp_minimal</button>
+                            <button onClick={() => { this.highlightBar(1); this.setSimplificationLevel(4) }} className={`button ${simplificationLevel === 4 ? 'active' : ''}`}>Target Lexile 1200</button>
+                            <button onClick={() => { this.highlightBar(2); this.setSimplificationLevel(3) }} className={`button ${simplificationLevel === 3 ? 'active' : ''}`}>Target Lexile 900</button>
+                            <button onClick={() => { this.highlightBar(3); this.setSimplificationLevel(2) }} className={`button ${simplificationLevel === 2 ? 'active' : ''}`}>Target Lexile 700</button>
+                            <button onClick={() => { this.highlightBar(4); this.setSimplificationLevel(1) }} className={`button ${simplificationLevel === 1 ? 'active' : ''}`}>Minimally Simplified</button>
                         </div>
                     </div>
                     <div className="right">
